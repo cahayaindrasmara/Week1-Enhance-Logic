@@ -5,8 +5,8 @@ const groupAnagrams = function (strs) {
         // let sortedArr = bubbleShort(strs[i]);
         // let sortedArr = selectionSort(strs[i])
         let sortedArr = insertionSort(strs[i])
-        console.log(sortedArr)
-        console.log("       sort:", sortedArr);
+        // console.log(sortedArr)
+        // console.log("       sort:", sortedArr);
 
         if (anagram[sortedArr]) {
             anagram[sortedArr].push(strs[i]);
@@ -36,16 +36,34 @@ function bubbleShort(str) {
 }
 
 function selectionSort(str) {
-    let chars = str.split("");
+    /*
+    mengurutkan huruf dalam string dari yang terkecil ke terbesar(berdasarkan urutan alfabet)
+
+    contoh: "cahaya" ->["a","a","a","c","h","y"] -> "aaachy"
+    */
+    let chars = str.split(""); //ubah string menjadi array karakter, agar bisa dibanding dan ditukar
+    // Misalnya "cahaya" → ['c', 'a', 'h', 'a', 'y', 'a']
 
     // loop luar untuk melakukan iterasi
     for (let i = 0; i < chars.length - 1; i++) {
         let minIndex = i;
 
+        /*
+        loop luar: posisi saar ini (i) adalah posisi yang akan diisi karakter terkecil dari sisa array
+
+        minIndex menyimpan index dari karakter terkecil yang ditemukan dari i ke akhir
+        */
+
         for (let j = i + 1; j < chars.length; j++) {
             if (chars[j] < chars[minIndex]) {
                 minIndex = j;
             }
+
+            /*
+            loop dalam: mencari karakter terkecil di sisa array mulai dari index i + 1 hingga akhir
+
+            jika ditemukan karakter yang lebih kecil dari chars[minIndex], update minIndex
+            */
         }
 
         //tukar arr[i] dan arr[minIndex]
@@ -65,19 +83,52 @@ function insertionSort(str) {
         let current = chars[i];
         let j = i - 1;
 
+        /*
+        loop dimulai dari index ke-1(bukan 0), karena kita anggap elemen pertama sudah terurut
+
+        setiap iterasi akan menyisipkan chars[i] ke posisi yang benar di antara elemen-elemen sebelumnya (yang sudah terurut)
+
+        current adalah karakter yang ingin disisipkan ke posisi yang benar
+
+        j adalah pointer untuk memeriksa elemen-elemen sebelumnya
+        */
+
         //geser elemen-elemen yang lebih besar ke posisi berikutnya
         while (j >= 0 && chars[j] > current) {
             chars[j + 1] = chars[j];
             j--
+
+            /*
+            selama karakter sebelumnya (chars[j]) lebih besar dari current, geser karakter itu ke kanan (ke chars[j+1])
+
+            ulangi sampai menemukan posisi yang tepat untuk current
+            */
         }
 
         //tempatkan elemen current pada posisi yang tepat;
         chars[j + 1] = current;
+        // Setelah semua elemen yang lebih besar digeser, tempatkan current di posisi kosong yang tersisa (j + 1).
 
     }
 
     return chars.join("")
 
+    /*
+    Input: "cahaya" → ['c', 'a', 'h', 'a', 'y', 'a']
+    i = 1 (current = 'a')
+    'a' < 'c' → geser 'c' → [c, c, h, a, y, a]
+    tempatkan 'a' → [a, c, h, a, y, a]
+
+    i = 2 (current = 'h')
+    'h' > 'c' → tidak geser → [a, c, h, a, y, a]
+
+    i = 3 (current = 'a')
+    'a' < 'h' → geser 'h'
+    'a' < 'c' → geser 'c'
+    'a' > 'a' → stop → tempatkan 'a' → [a, a, c, h, y, a]
+
+    Lanjut hingga akhir...
+    */
 }
 
 function mergeSort(str) {
@@ -122,26 +173,26 @@ function merge(left, right) {
 console.log(groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]));
 // Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
 
-// // Test Case 2
-// console.log(groupAnagrams([""]));
-// // Output: [[""]]
+// Test Case 2
+console.log(groupAnagrams([""]));
+// Output: [[""]]
 
-// // Test Case 3
-// console.log(groupAnagrams(["a"]));
-// // Output: [["a"]]
+// Test Case 3
+console.log(groupAnagrams(["a"]));
+// Output: [["a"]]
 
-// // Test Case 4
-// console.log(groupAnagrams(["listen", "silent", "hello", "world"]));
-// // Output: [["listen","silent"],["hello"],["world"]]
+// Test Case 4
+console.log(groupAnagrams(["listen", "silent", "hello", "world"]));
+// Output: [["listen","silent"],["hello"],["world"]]
 
-// // Test Case 5
-// console.log(groupAnagrams(["rat", "tar", "art", "car"]));
-// // Output: [["rat","tar","art"],["car"]]
+// Test Case 5
+console.log(groupAnagrams(["rat", "tar", "art", "car"]));
+// Output: [["rat","tar","art"],["car"]]
 
-// // Test Case 6
-// console.log(groupAnagrams(["apple", "banana", "leapp", "grape", "orange"]));
-// // Output: [["apple","leapp"],["banana"],["grape"],["orange"]]
+// Test Case 6
+console.log(groupAnagrams(["apple", "banana", "leapp", "grape", "orange"]));
+// Output: [["apple","leapp"],["banana"],["grape"],["orange"]]
 
-// // Test Case 7
-// console.log(groupAnagrams(["abcd", "dcba", "xyz", "zyx", "wxyz"]));
-// // Output: [["abcd","dcba"],["xyz","zyx"],["wxyz"]]
+// Test Case 7
+console.log(groupAnagrams(["abcd", "dcba", "xyz", "zyx", "wxyz"]));
+// Output: [["abcd","dcba"],["xyz","zyx"],["wxyz"]]
